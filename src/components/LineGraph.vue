@@ -94,9 +94,9 @@ export default defineComponent({
             .append("g")
             .attr("transform", `translate(0,${height - marginBottom})`)
             .call(
-                d3
-                    .axisBottom(this.x)
+                d3.axisBottom(this.x)
                     .ticks(width / 80)
+                    .tickFormat((d) => this.dayOfWinterToDate(d as number))
                     .tickSizeOuter(0)
             );
 
@@ -116,55 +116,12 @@ export default defineComponent({
                     .text("Snow Depth (cm)")
             );
 
-        // this.points = this.data.map((d) => [
-        //     this.x!(d.dayOfWinter),
-        //     this.y!(d.depthCm),
-        //     d.winter,
-        // ]);
-
-        // const groups = d3.rollup(
-        //     this.points,
-        //     (v) => Object.assign(v, { z: v[0][2] }),
-        //     (d) => d[2]
-        // );
+        
 
         this.line = d3.line();
 
         this.updatePath();
-        // this.path = this.svg
-        //     .append("g")
-        //     .attr("fill", "none")
-        //     .attr("stroke-linejoin", "round")
-        //     .attr("stroke-linecap", "round")
-        //     .selectAll("path")
-        //     .data(groups.values())
-        //     .join(
-        //         (enter) => enter.append("path"),
-        //         (update) => update,
-        //         (exit) => exit.remove()
-        //     )
-
-        //     .attr("d", this.line as any)
-        //     .attr("stroke-width", (d: any) => {
-        //         if (d.z == "Average Winter") {
-        //             return 3;
-        //         } else {
-        //             return 1.5;
-        //         }
-        //     })
-        //     .attr("stroke", (d: any) => {
-        //         // console.log(d.z);
-        //         // Assuming "average winter group" is identified by a property like d.key
-        //         if (d.z == "Average Winter") {
-        //             // console.log("yay");
-        //             return "red"; // Change color to red for average winter group
-        //         } else if (d.z == this.selected) {
-        //             return "steelblue"; // Keep color as steelblue for other groups // maybe something grayer
-        //         } else {
-        //             return "#ddd";
-        //         }
-        //     }) as any;
-
+      
         this.dot = this.svg.append("g").attr("display", "none");
         this.dot.append("circle").attr("r", 2.5);
         this.dot.append("text").attr("text-anchor", "middle").attr("y", -8);
@@ -366,6 +323,15 @@ export default defineComponent({
                     .attr("stroke-dashoffset", 0)
                     .duration(1000);
             }
+        },
+        dayOfWinterToDate(dayOfWinter: number): string {
+            // Start date is November 1st of the current winter season
+            const baseDate = new Date(2023, 10, 1); // Month is 0-based, so 10 = November
+            const targetDate = new Date(baseDate);
+            targetDate.setDate(baseDate.getDate() + dayOfWinter - 1);
+            
+            // Format as MMM DD (e.g., "Nov 01", "Dec 15", etc.)
+            return targetDate.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
         },
     },
 });
