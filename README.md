@@ -2,7 +2,7 @@
 
 A Vue.js-based visualization tool for displaying snow depth data from the Mount Washington Avalanche Center (MWAC).
 
-![MWAC Visualization Tool Screenshot](public/assets.png)
+![MWAC Visualization Tool Screenshot](public/example.png)
 
 ## Features
 
