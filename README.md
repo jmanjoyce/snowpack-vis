@@ -49,16 +49,6 @@ The visualization uses snow depth data from various stations including:
 
 See [Vue CLI Configuration Reference](https://cli.vuejs.org/config/).
 
-## Development
 
-This project uses:
-- TypeScript for type safety
-- ESLint and Prettier for code formatting
-- SASS for styling
-- Vue Router for navigation
-
-## License
-
-[Add your license information here]
 
 # snowpack-vis
